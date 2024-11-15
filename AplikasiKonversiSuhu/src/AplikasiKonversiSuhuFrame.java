@@ -83,6 +83,11 @@ public class AplikasiKonversiSuhuFrame extends javax.swing.JFrame {
                 textFieldInputActionPerformed(evt);
             }
         });
+        textFieldInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                textFieldInputKeyTyped(evt);
+            }
+        });
 
         comboBoxScale.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -98,6 +103,11 @@ public class AplikasiKonversiSuhuFrame extends javax.swing.JFrame {
         buttonConvert.setBackground(new java.awt.Color(238, 223, 122));
         buttonConvert.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 12)); // NOI18N
         buttonConvert.setText("Konversi");
+        buttonConvert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonConvertActionPerformed(evt);
+            }
+        });
 
         labelResult.setText("Hasil");
 
@@ -197,6 +207,49 @@ public class AplikasiKonversiSuhuFrame extends javax.swing.JFrame {
     private void radioCelsiusToFahrenheitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioCelsiusToFahrenheitActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_radioCelsiusToFahrenheitActionPerformed
+
+    private void buttonConvertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonConvertActionPerformed
+       try {
+        // Mengambil nilai suhu yang dimasukkan oleh pengguna
+        double inputSuhu = Double.parseDouble(textFieldInput.getText());
+
+        // Mengambil nilai yang dipilih dari comboBoxScale
+        String selectedScale = (String) comboBoxScale.getSelectedItem();
+        double hasilKonversi = 0.0;
+
+        // Mengecek arah konversi yang dipilih dan melakukan konversi
+        if (radioCelsiusToFahrenheit.isSelected()) {
+            if ("Celsius".equals(selectedScale)) {
+                hasilKonversi = (inputSuhu * 9/5) + 32; // Rumus Celsius ke Fahrenheit
+            }
+        } else if (radioFahrenheitToCelsius.isSelected()) {
+            if ("Fahrenheit".equals(selectedScale)) {
+                hasilKonversi = (inputSuhu - 32) * 5/9; // Rumus Fahrenheit ke Celsius
+            }
+        } else if (radioCelsiusToReamur.isSelected()) {
+            if ("Celsius".equals(selectedScale)) {
+                hasilKonversi = inputSuhu * 4/5; // Rumus Celsius ke Reamur
+            }
+        } else if (radioFahrenheitToReamur.isSelected()) {
+            if ("Fahrenheit".equals(selectedScale)) {
+                hasilKonversi = (inputSuhu - 32) * 4/9; // Rumus Fahrenheit ke Reamur
+            }
+        }
+
+        // Menampilkan hasil konversi
+        textFieldResult.setText(String.valueOf(hasilKonversi));
+
+    } catch (NumberFormatException e) {
+        textFieldResult.setText("Input tidak valid!"); // Menampilkan pesan jika input bukan angka
+    }
+    }//GEN-LAST:event_buttonConvertActionPerformed
+
+    private void textFieldInputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldInputKeyTyped
+        if (textFieldInput.getText().isEmpty()) {
+        textFieldResult.setText("Masukkan suhu yang valid!");
+        return; // Menghentikan proses jika input kosong
+}
+    }//GEN-LAST:event_textFieldInputKeyTyped
 
     /**
      * @param args the command line arguments
