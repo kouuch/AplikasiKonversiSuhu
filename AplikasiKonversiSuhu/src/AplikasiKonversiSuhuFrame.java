@@ -1,5 +1,7 @@
 
+import java.awt.event.KeyEvent;
 import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -131,8 +133,8 @@ public class AplikasiKonversiSuhuFrame extends javax.swing.JFrame {
                     .addComponent(comboBoxScale, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addComponent(labelInput, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                        .addComponent(textFieldInput, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(textFieldInput))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -142,10 +144,11 @@ public class AplikasiKonversiSuhuFrame extends javax.swing.JFrame {
                                 .addGap(13, 13, 13)
                                 .addComponent(labelResult, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(textFieldResult)
-                            .addComponent(radioCelsiusToReamur, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(radioFahrenheitToReamur, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))))
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(radioCelsiusToReamur, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(radioFahrenheitToReamur, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
+                            .addComponent(textFieldResult, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(53, 53, 53))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -209,46 +212,60 @@ public class AplikasiKonversiSuhuFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_radioCelsiusToFahrenheitActionPerformed
 
     private void buttonConvertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonConvertActionPerformed
-       try {
+        try {
         // Mengambil nilai suhu yang dimasukkan oleh pengguna
-        double inputSuhu = Double.parseDouble(textFieldInput.getText());
+        String inputText = textFieldInput.getText();
 
-        // Mengambil nilai yang dipilih dari comboBoxScale
-        String selectedScale = (String) comboBoxScale.getSelectedItem();
+        // Pengecekan jika input kosong
+        if (inputText.isEmpty()) {
+            textFieldResult.setText("Masukkan suhu yang valid!");
+            return; // Menghentikan proses konversi jika input kosong
+        }
+
+        // Mengonversi input menjadi angka
+        double inputSuhu = Double.parseDouble(inputText);
+
+        // Pengecekan jika suhu terlalu rendah (di bawah -273.15°C atau 0 Kelvin)
+        if (inputSuhu < -273.15) {  // Suhu lebih rendah dari -273.15°C
+            textFieldResult.setText("Suhu terlalu rendah!");
+            return; // Menghentikan proses jika suhu terlalu rendah
+        }
+
+        // Lakukan konversi berdasarkan input yang valid
+        String selectedScale = (String) comboBoxScale.getSelectedItem();  // Pilihan skala suhu
         double hasilKonversi = 0.0;
 
-        // Mengecek arah konversi yang dipilih dan melakukan konversi
-        if (radioCelsiusToFahrenheit.isSelected()) {
-            if ("Celsius".equals(selectedScale)) {
-                hasilKonversi = (inputSuhu * 9/5) + 32; // Rumus Celsius ke Fahrenheit
+        // Mengecek arah konversi yang dipilih dan melakukan konversi berdasarkan skala suhu yang dipilih
+        if ("Celsius".equals(selectedScale)) {
+            if (radioCelsiusToFahrenheit.isSelected()) {
+                hasilKonversi = (inputSuhu * 9 / 5) + 32; // Rumus Celsius ke Fahrenheit
+            } else if (radioCelsiusToReamur.isSelected()) {
+                hasilKonversi = inputSuhu * 4 / 5; // Rumus Celsius ke Reamur
             }
-        } else if (radioFahrenheitToCelsius.isSelected()) {
-            if ("Fahrenheit".equals(selectedScale)) {
-                hasilKonversi = (inputSuhu - 32) * 5/9; // Rumus Fahrenheit ke Celsius
-            }
-        } else if (radioCelsiusToReamur.isSelected()) {
-            if ("Celsius".equals(selectedScale)) {
-                hasilKonversi = inputSuhu * 4/5; // Rumus Celsius ke Reamur
-            }
-        } else if (radioFahrenheitToReamur.isSelected()) {
-            if ("Fahrenheit".equals(selectedScale)) {
-                hasilKonversi = (inputSuhu - 32) * 4/9; // Rumus Fahrenheit ke Reamur
+        } else if ("Fahrenheit".equals(selectedScale)) {
+            if (radioFahrenheitToCelsius.isSelected()) {
+                hasilKonversi = (inputSuhu - 32) * 5 / 9; // Rumus Fahrenheit ke Celsius
+            } else if (radioFahrenheitToReamur.isSelected()) {
+                hasilKonversi = (inputSuhu - 32) * 4 / 9; // Rumus Fahrenheit ke Reamur
             }
         }
 
-        // Menampilkan hasil konversi
+        // Menampilkan hasil konversi di textFieldResult
         textFieldResult.setText(String.valueOf(hasilKonversi));
 
     } catch (NumberFormatException e) {
-        textFieldResult.setText("Input tidak valid!"); // Menampilkan pesan jika input bukan angka
+        textFieldResult.setText("Masukkan suhu yang valid!"); // Jika input bukan angka
     }
+
     }//GEN-LAST:event_buttonConvertActionPerformed
 
     private void textFieldInputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldInputKeyTyped
-        if (textFieldInput.getText().isEmpty()) {
-        textFieldResult.setText("Masukkan suhu yang valid!");
-        return; // Menghentikan proses jika input kosong
-}
+        char karakter = evt.getKeyChar();
+    // Memeriksa apakah karakter bukan digit dan bukan karakter kontrol (backspace, delete, dll.)
+    if (!Character.isDigit(karakter) && karakter != KeyEvent.VK_BACK_SPACE && karakter != KeyEvent.VK_DELETE) {
+        evt.consume();
+        JOptionPane.showMessageDialog(this, "Masukkan hanya angka!", "Error", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_textFieldInputKeyTyped
 
     /**

@@ -92,8 +92,8 @@
                       <Component id="comboBoxScale" alignment="1" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="labelInput" min="-2" pref="148" max="-2" attributes="0"/>
-                          <EmptySpace pref="27" max="32767" attributes="0"/>
-                          <Component id="textFieldInput" min="-2" pref="143" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="textFieldInput" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -107,10 +107,12 @@
                               </Group>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="textFieldResult" max="32767" attributes="0"/>
-                              <Component id="radioCelsiusToReamur" alignment="0" max="32767" attributes="0"/>
-                              <Component id="radioFahrenheitToReamur" alignment="0" pref="145" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="radioCelsiusToReamur" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="radioFahrenheitToReamur" alignment="0" pref="145" max="32767" attributes="0"/>
+                              </Group>
+                              <Component id="textFieldResult" min="-2" pref="174" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
