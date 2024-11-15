@@ -1,3 +1,6 @@
+
+import javax.swing.ButtonGroup;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -14,6 +17,14 @@ public class AplikasiKonversiSuhuFrame extends javax.swing.JFrame {
      */
     public AplikasiKonversiSuhuFrame() {
         initComponents();
+        ButtonGroup group = new ButtonGroup();
+        group.add(radioCelsiusToFahrenheit);
+        group.add(radioFahrenheitToCelsius);
+        group.add(radioCelsiusToReamur);
+        group.add(radioFahrenheitToReamur);
+        
+        comboBoxScale.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Celsius", "Fahrenheit", "Reamur", "Kelvin" }));
+
     }
 
     /**
