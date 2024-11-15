@@ -212,7 +212,7 @@ public class AplikasiKonversiSuhuFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_radioCelsiusToFahrenheitActionPerformed
 
     private void buttonConvertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonConvertActionPerformed
-        try {
+         try {
         // Mengambil nilai suhu yang dimasukkan oleh pengguna
         String inputText = textFieldInput.getText();
 
@@ -241,12 +241,24 @@ public class AplikasiKonversiSuhuFrame extends javax.swing.JFrame {
                 hasilKonversi = (inputSuhu * 9 / 5) + 32; // Rumus Celsius ke Fahrenheit
             } else if (radioCelsiusToReamur.isSelected()) {
                 hasilKonversi = inputSuhu * 4 / 5; // Rumus Celsius ke Reamur
+            } else if (radioFahrenheitToCelsius.isSelected()) {
+                hasilKonversi = inputSuhu + 273.15; // Celsius ke Kelvin
             }
         } else if ("Fahrenheit".equals(selectedScale)) {
             if (radioFahrenheitToCelsius.isSelected()) {
                 hasilKonversi = (inputSuhu - 32) * 5 / 9; // Rumus Fahrenheit ke Celsius
             } else if (radioFahrenheitToReamur.isSelected()) {
                 hasilKonversi = (inputSuhu - 32) * 4 / 9; // Rumus Fahrenheit ke Reamur
+            } else if (radioFahrenheitToCelsius.isSelected()) {
+                hasilKonversi = ((inputSuhu - 32) * 5 / 9) + 273.15; // Fahrenheit ke Kelvin
+            }
+        } else if ("Reamur".equals(selectedScale)) {
+            if (radioCelsiusToReamur.isSelected()) {
+                hasilKonversi = inputSuhu * 4 / 5; // Celsius ke Reamur
+            } else if (radioFahrenheitToReamur.isSelected()) {
+                hasilKonversi = (inputSuhu - 32) * 4 / 9; // Fahrenheit ke Reamur
+            } else if (radioCelsiusToFahrenheit.isSelected()) {
+                hasilKonversi = (inputSuhu * 9 / 5) + 32; // Reamur ke Fahrenheit
             }
         }
 
@@ -256,7 +268,6 @@ public class AplikasiKonversiSuhuFrame extends javax.swing.JFrame {
     } catch (NumberFormatException e) {
         textFieldResult.setText("Masukkan suhu yang valid!"); // Jika input bukan angka
     }
-
     }//GEN-LAST:event_buttonConvertActionPerformed
 
     private void textFieldInputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldInputKeyTyped
